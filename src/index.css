@@ -1,0 +1,16 @@
+*,
+*::before,
+*::after{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+:root[data-theme="light"] {
+  --bg-color: #3a4663;
+}
+
+
+.app{
+  height: 100vh;
+  background-color: var(--bg-color);
+}
