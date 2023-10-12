@@ -4,7 +4,7 @@ import CalcHeader from "./components/CalcHeader";
 import CalcScreen from "./components/CalcScreen";
 
 function App() {
-  const [currentTheme, setCurrentTheme] = useState('light')
+  const [currentTheme, setCurrentTheme] = useState('dark')
   useEffect(() => {
     let localSTheme = localStorage.getItem('theme');
    
@@ -19,9 +19,11 @@ function App() {
   },[currentTheme])
   return (
     <div className="app">
-        <CalcHeader />
-        <CalcScreen />
-        <CalcBody />
+        <div className="container">
+            <CalcHeader setCurrentTheme={setCurrentTheme} />
+            <CalcScreen />
+            <CalcBody />
+        </div>
     </div>
   );
 }
