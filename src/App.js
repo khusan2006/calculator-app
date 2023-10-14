@@ -9,6 +9,9 @@ function App() {
   const [firstNumber, setFirstNumber] = useState('');
   const [secondNumber, setSecondNumber] = useState('')
 
+  const handleInputChange = (value) => {
+   inputNumber.length <=10 && setInputNumber((prev)=> `${prev}${value}`)
+  }
   const handleIncrement = () => {
     if(!firstNumber) {
       setFirstNumber(inputNumber)
@@ -31,52 +34,36 @@ function App() {
   },[currentTheme])
 
 
-  // useEffect(() => {
-  //   document.addEventListener('keydown', event => {
-  //     const key = event.key;
-    
-  //     if (key === 'Escape') {
-  //         // resetCalculator();
-  //         return;
-  //     }
-  
-  //     if (key === 'Backspace') {
-  //         setInputNumber((prev) => [...prev].splice(0,prev.length-1).join())
-  //         return;
-  //     }
-  
-  //     const keyNumber = +key;
-  //     if (keyNumber >= 0 && keyNumber <= 9) {
-  //         // getElement(`[data-key="${keyNumber}"]`).click();
-  //         // getElement(`[data-key="${keyNumber}"]`).focus();
-  //         return;
-  //     }
-  
-  //     if (key === '.') {
-  //         // getElement(`[data-key="."]`).click();
-  //         // getElement(`[data-key="."]`).focus();
-  //         return;
-  //     }
-  
-  //     if (['+', '-', '/', '*'].includes(key)) {
-  //         // getElement(`[data-operator="${key}"]`).click();
-  //         // getElement(`[data-operator="${key}"]`).focus();
-  //         return;
-  //     }
-  
-  //     if (key === 'Enter') {
-  //         event.preventDefault();
-  //         // calculatorEqualButton.click();
-  //         // calculatorEqualButton.focus();
-  //     }
-  // })
-  // },[])
+  useEffect(() => {
+    const handlekeyboards = (e) => {
+      const {key} = e
+      if(key === 'Backspace') {
+        setInputNumber((prev) => prev.slice(0,-1))
+      }
+
+      const keyNumber = +key;
+
+      if(keyNumber >= 0 && keyNumber <= 9) {
+        handleInputChange(keyNumber)
+      }
+
+      if(key === '.') {
+        handleInputChange(key)
+      }
+      
+    }
+    document.addEventListener('keydown', handlekeyboards)
+
+    return function() {
+      document.removeEventListener('keydown', handlekeyboards)
+    }
+  },[inputNumber])
   return (
     <div className="app">
         <div className="container">
             <CalcHeader setCurrentTheme={setCurrentTheme} />
             <CalcScreen inputNumber={inputNumber} setInputNumber={setInputNumber} />
-            <CalcBody setInputNumber={setInputNumber} handleIncrement={handleIncrement}  inputNumber={inputNumber} />
+            <CalcBody setInputNumber={setInputNumber} handleIncrement={handleIncrement} handleInputChange={handleInputChange} inputNumber={inputNumber} />
         </div>
     </div>
   );
