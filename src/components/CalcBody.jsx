@@ -1,9 +1,7 @@
 import React from 'react'
 
-const CalcBody = ({setInputNumber, inputNumber, handleInputChange}) => {
-  // const handleClick = (number) => {
-  //   inputNumber.legth <= 10 && setInputNumber((prev) => `${prev}${number}`)
-  // }
+const CalcBody = ({handleInputChange, handleOperations}) => {
+  
   return (
     <div className='calc-body'>
         <span className='body__history'>History</span>
@@ -15,15 +13,15 @@ const CalcBody = ({setInputNumber, inputNumber, handleInputChange}) => {
         <span onClick={() => handleInputChange(4)}>4</span>
         <span onClick={() => handleInputChange(5)}>5</span>
         <span onClick={() => handleInputChange(6)}>6</span>
-        <span>+</span>
+        <span onClick={() => handleOperations('+')}>+</span>
         <span onClick={() => handleInputChange(3)}>3</span>
         <span onClick={() => handleInputChange(2)}>2</span>
         <span onClick={() => handleInputChange(1)}>1</span>
-        <span>-</span>
+        <span onClick={() => handleOperations('-')}>-</span>
         <span onClick={() => handleInputChange(".")}>.</span>
         <span onClick={() => handleInputChange(0)}>0</span>
-        <span>/</span>
-        <span>x</span>
+        <span onClick={() => handleOperations('/')}>/</span>
+        <span onClick={() => handleOperations('*')}>x</span>
         <span className='body__reset'>Reset</span>
         <span className='body__equal'>=</span>
     </div>

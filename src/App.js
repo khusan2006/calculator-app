@@ -1,27 +1,46 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import CalcBody from "./components/CalcBody";
 import CalcHeader from "./components/CalcHeader";
 import CalcScreen from "./components/CalcScreen";
+
+const MAX_VALUE = 10
 
 function App() {
   const [currentTheme, setCurrentTheme] = useState('dark');
   const [inputNumber, setInputNumber] = useState('');
   const [firstNumber, setFirstNumber] = useState('');
-  const [secondNumber, setSecondNumber] = useState('')
 
-  const handleInputChange = (value) => {
-   inputNumber.length <=10 && setInputNumber((prev)=> `${prev}${value}`)
-  }
-  const handleIncrement = () => {
-    if(!firstNumber) {
-      setFirstNumber(inputNumber)
-      setInputNumber('')
-    }else{
-      setInputNumber(Number(firstNumber) + Number(inputNumber))
-    }
-  }
+  const handleInputChange = useCallback((value) => {
+    inputNumber.length <= MAX_VALUE && setInputNumber((prev)=> `${prev}${value}`)
+},[inputNumber.length])
 
+  const handleOperations = useCallback((type) => {
+      if(!firstNumber) {
+        setFirstNumber(inputNumber)
+        setInputNumber('')
+      }else{
+        if(type === '+') {
+          setInputNumber(Number(firstNumber) + Number(inputNumber))
+          setFirstNumber('')
+        }
+        if(type === '-') {
+          setInputNumber(Number(firstNumber) - Number(inputNumber))
+          setFirstNumber('')
+        }
+        if(type === '*') {
+          setInputNumber(Number(firstNumber) * Number(inputNumber))
+          setFirstNumber('')
+        }
+        if(type === '/') {
+          setInputNumber(Number(firstNumber) / Number(inputNumber))
+          setFirstNumber('')
+        } 
+      }
+    
 
+  },[firstNumber, inputNumber])
+
+  // effect for handling theme 
   useEffect(() => {
     let localSTheme = localStorage.getItem('theme');
    
@@ -33,7 +52,7 @@ function App() {
     document.documentElement.setAttribute('data-theme', currentTheme);
   },[currentTheme])
 
-
+  //effect for handling keyboard events 
   useEffect(() => {
     const handlekeyboards = (e) => {
       const {key} = e
@@ -51,19 +70,22 @@ function App() {
         handleInputChange(key)
       }
       
+      if(['+','-','*','/'].includes(key)) {
+        handleOperations(key)
+      }
     }
     document.addEventListener('keydown', handlekeyboards)
 
     return function() {
       document.removeEventListener('keydown', handlekeyboards)
     }
-  },[inputNumber])
+  },[inputNumber, handleInputChange, handleOperations])
   return (
     <div className="app">
         <div className="container">
             <CalcHeader setCurrentTheme={setCurrentTheme} />
-            <CalcScreen inputNumber={inputNumber} setInputNumber={setInputNumber} />
-            <CalcBody setInputNumber={setInputNumber} handleIncrement={handleIncrement} handleInputChange={handleInputChange} inputNumber={inputNumber} />
+            <CalcScreen inputNumber={inputNumber} setInputNumber={setInputNumber} MAX_VALUE={MAX_VALUE} />
+            <CalcBody handleOperations={handleOperations} handleInputChange={handleInputChange} />
         </div>
     </div>
   );
