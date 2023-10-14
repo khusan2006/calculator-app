@@ -9,37 +9,47 @@ function App() {
   const [currentTheme, setCurrentTheme] = useState('dark');
   const [inputNumber, setInputNumber] = useState('');
   const [firstNumber, setFirstNumber] = useState('');
+  const [operationType, setOperationType] = useState('')
 
   const handleInputChange = useCallback((value) => {
     inputNumber.length <= MAX_VALUE && setInputNumber((prev)=> `${prev}${value}`)
 },[inputNumber.length])
 
-  const handleOperations = useCallback((type) => {
+  const handleOperations = useCallback((type='') => {
       if(!firstNumber) {
         setFirstNumber(inputNumber)
         setInputNumber('')
+        setOperationType(type)
       }else{
-        if(type === '+') {
+        if(operationType === '+') {
           setInputNumber(Number(firstNumber) + Number(inputNumber))
           setFirstNumber('')
+          setOperationType('')
         }
-        if(type === '-') {
+        if(operationType === '-') {
           setInputNumber(Number(firstNumber) - Number(inputNumber))
           setFirstNumber('')
+          setOperationType('')
         }
-        if(type === '*') {
+        if(operationType === '*') {
           setInputNumber(Number(firstNumber) * Number(inputNumber))
           setFirstNumber('')
+          setOperationType('')
         }
-        if(type === '/') {
+        if(operationType === '/') {
           setInputNumber(Number(firstNumber) / Number(inputNumber))
           setFirstNumber('')
+          setOperationType('')
         } 
       }
     
 
-  },[firstNumber, inputNumber])
+  },[firstNumber, inputNumber, operationType])
 
+  const reset = () => {
+    setInputNumber('')
+    setFirstNumber('')
+  }
   // effect for handling theme 
   useEffect(() => {
     let localSTheme = localStorage.getItem('theme');
@@ -73,6 +83,9 @@ function App() {
       if(['+','-','*','/'].includes(key)) {
         handleOperations(key)
       }
+      if(key === '=' || key === 'Enter') {
+        handleOperations()
+      }
     }
     document.addEventListener('keydown', handlekeyboards)
 
@@ -85,7 +98,7 @@ function App() {
         <div className="container">
             <CalcHeader setCurrentTheme={setCurrentTheme} />
             <CalcScreen inputNumber={inputNumber} setInputNumber={setInputNumber} MAX_VALUE={MAX_VALUE} />
-            <CalcBody handleOperations={handleOperations} handleInputChange={handleInputChange} />
+            <CalcBody handleOperations={handleOperations} handleInputChange={handleInputChange} reset={reset} />
         </div>
     </div>
   );

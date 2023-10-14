@@ -1,6 +1,6 @@
 import React from 'react'
 
-const CalcBody = ({handleInputChange, handleOperations}) => {
+const CalcBody = ({handleInputChange, handleOperations, reset}) => {
   
   return (
     <div className='calc-body'>
@@ -22,8 +22,8 @@ const CalcBody = ({handleInputChange, handleOperations}) => {
         <span onClick={() => handleInputChange(0)}>0</span>
         <span onClick={() => handleOperations('/')}>/</span>
         <span onClick={() => handleOperations('*')}>x</span>
-        <span className='body__reset'>Reset</span>
-        <span className='body__equal'>=</span>
+        <span className='body__reset' onClick={reset}>Reset</span>
+        <span className='body__equal' onClick={handleOperations}>=</span>
     </div>
   )
 }
