@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import CalcBody from "./components/CalcBody";
 import CalcHeader from "./components/CalcHeader";
 import CalcScreen from "./components/CalcScreen";
@@ -10,12 +10,13 @@ function App() {
   const [inputNumber, setInputNumber] = useState('');
   const [firstNumber, setFirstNumber] = useState('');
   const [operationType, setOperationType] = useState('')
-
-  const handleInputChange = useCallback((value) => {
-    inputNumber.length <= MAX_VALUE && setInputNumber((prev)=> `${prev}${value}`)
-},[inputNumber.length])
-
-  const handleOperations = useCallback((type='') => {
+  // const InputNumberLength = inputNumber.length
+  // handling changes
+  const handleInputChange = (value) => {
+    setInputNumber((prev)=> prev.length <= MAX_VALUE ? `${prev}${value}` : prev)
+  }
+  //handling operations
+ const handleOperations = (type='') => {
       if(!firstNumber) {
         setFirstNumber(inputNumber)
         setInputNumber('')
@@ -44,7 +45,7 @@ function App() {
       }
     
 
-  },[firstNumber, inputNumber, operationType])
+  }
 
   const reset = () => {
     setInputNumber('')
@@ -53,7 +54,6 @@ function App() {
   // effect for handling theme 
   useEffect(() => {
     let localSTheme = localStorage.getItem('theme');
-   
     if (!localSTheme) {
         setCurrentTheme(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
     }else{
@@ -92,7 +92,8 @@ function App() {
     return function() {
       document.removeEventListener('keydown', handlekeyboards)
     }
-  },[inputNumber, handleInputChange, handleOperations])
+  },[])
+
   return (
     <div className="app">
         <div className="container">
