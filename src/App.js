@@ -15,7 +15,7 @@ function App() {
     setInputNumber((prev)=> prev.length <= MAX_VALUE ? `${prev}${value}` : prev)
   }
   const handleDelete = () => {
-    setInputNumber((prev) => prev.slice(0,-1))
+    setInputNumber((prev) => prev.toString().slice(0,-1))
   }
   //handling operations
  const handleOperations = (type='') => {
@@ -25,22 +25,22 @@ function App() {
         setOperationType(type)
       }else{
         if(operationType === '+') {
-          setInputNumber(Number(firstNumber) + Number(inputNumber))
+          setInputNumber((Number(firstNumber) + Number(inputNumber)).toString())
           setFirstNumber('')
           setOperationType('')
         }
         if(operationType === '-') {
-          setInputNumber(Number(firstNumber) - Number(inputNumber))
+          setInputNumber((Number(firstNumber) - Number(inputNumber)).toString())
           setFirstNumber('')
           setOperationType('')
         }
         if(operationType === '*') {
-          setInputNumber(Number(firstNumber) * Number(inputNumber))
+          setInputNumber((Number(firstNumber) * Number(inputNumber)).toString())
           setFirstNumber('')
           setOperationType('')
         }
         if(operationType === '/') {
-          setInputNumber(Number(firstNumber) / Number(inputNumber))
+          setInputNumber((Number(firstNumber) / Number(inputNumber)).toString())
           setFirstNumber('')
           setOperationType('')
         } 
