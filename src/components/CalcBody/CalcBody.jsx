@@ -1,4 +1,5 @@
 import React from 'react'
+import './calcbody.css'
 
 const CalcBody = ({firstNumber,handleInputChange, handleOperations, reset, handleDelete}) => {
   

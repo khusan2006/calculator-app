@@ -1,0 +1,67 @@
+.calc-body{
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    justify-items: center;
+    align-items: center;
+    gap: 1.8rem;
+    text-align: center;
+    margin-top: 2rem;
+    background-color: var(--color-bg-controls);
+    padding: 2rem;
+    border-radius: .5rem;
+  }
+  
+  .calc-body span{  
+    width: 100%;
+    background-color: var(--color-bg-key);
+    box-shadow: 0 -2px 0 0 var(--color-shadow-key) inset;
+    color: var(--color-text-body);
+    font-size: 2.7rem;
+    font-weight: bold;
+    padding: 0.75rem;
+    border-radius: .5rem;
+    cursor: pointer;
+    transition: all var(--transition-duration) ease;
+  }
+  
+  .calc-body span:hover{
+    background-color: var(--color-bg-key-hover);
+  }
+  
+  .calc-body span:active {
+    background-color: var(--color-bg-key-active);
+    box-shadow: 0px -3px 0px 0px var(--color-shadow-key) inset;
+    transform: translateY(1px);
+  }
+  
+  .calc-body .body__history{
+    grid-column: 1/3;
+    background-color: var(--color-bg-key-command);
+    color: var(--color-text-key-command);
+    box-shadow:  0px -4px 0px 0px var(--color-shadow-key-command) inset;
+  }
+  .calc-body .body__voice{
+    grid-column: 3/5;
+    background-color: var(--color-bg-key-command);
+    color: var(--color-text-key-command);
+    box-shadow:  0px -4px 0px 0px var(--color-shadow-key-command) inset;
+  }
+  .calc-body .body__reset{
+    grid-column: 1/3;
+    background-color: var(--color-bg-key-command);
+    color: var(--color-text-key-command);
+    box-shadow:  0px -4px 0px 0px var(--color-shadow-key-command) inset;
+  }
+  .calc-body .body__equal{
+    grid-column: 3/5;
+    background-color: var(--color-bg-key-equal);
+    color: var(--color-text-key-equal);
+    box-shadow:  0px -4px 0px 0px var(--color-shadow-key-equal) inset; 
+  }
+  
+  .calc-body .body__del {
+    background-color: var(--color-bg-key-command);
+    color: var(--color-text-key-command);
+    box-shadow:  0px -4px 0px 0px var(--color-shadow-key-command) inset;
+  }

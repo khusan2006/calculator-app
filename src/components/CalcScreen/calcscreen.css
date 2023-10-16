@@ -1,0 +1,33 @@
+.screen-container{
+    padding-top: 2rem;
+    position: relative;
+  }
+  
+  .copy-icon{
+    position: absolute;
+    top: 2.5rem;
+    right: 1rem;
+    color: var(--color-text-input);
+    opacity: 0.5;
+    cursor: pointer;
+    transition: all var(--transition-duration) ease;
+  }
+  
+  .copy-icon:hover, .copy-icon:active{
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  .screen{
+    background-color: var(--color-bg-input);
+    color: var(--color-text-input);
+    text-align: right;
+    border: none;
+    font-size: 3.2rem;
+    padding: 2.5rem 1.5rem;
+    font-weight: 600;
+    width: 100%;
+    border-radius: 1rem;
+    outline: 1px dashed var(--color-text-input);
+  }
+  
+  

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import CalcBody from "./components/CalcBody";
-import CalcHeader from "./components/CalcHeader";
-import CalcScreen from "./components/CalcScreen";
+import CalcBody from "./components/CalcBody/CalcBody";
+import CalcHeader from "./components/CalcHeader/CalcHeader";
+import CalcScreen from "./components/CalcScreen/CalcScreen";
 
 const MAX_VALUE = 10
 
@@ -16,6 +16,12 @@ function App() {
   }
   const handleDelete = () => {
     setInputNumber((prev) => prev.toString().slice(0,-1))
+  }
+
+
+  //handling copying to clipboard
+  const handleCopy = () => {
+    navigator.clipboard.writeText(inputNumber)
   }
   //handling operations
  const handleOperations = (type='') => {
@@ -104,7 +110,7 @@ function App() {
     <div className="app">
         <div className="container">
             <CalcHeader setCurrentTheme={setCurrentTheme} />
-            <CalcScreen inputNumber={inputNumber} setInputNumber={setInputNumber} MAX_VALUE={MAX_VALUE} />
+            <CalcScreen inputNumber={inputNumber} setInputNumber={setInputNumber} MAX_VALUE={MAX_VALUE} handleCopy={handleCopy} />
             <CalcBody firstNumber={firstNumber} handleOperations={handleOperations} handleInputChange={handleInputChange} reset={reset} handleDelete={handleDelete} />
         </div>
     </div>

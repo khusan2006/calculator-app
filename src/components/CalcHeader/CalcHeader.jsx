@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import './calcheader.css'
 
 const CalcHeader = ({setCurrentTheme}) => {
   const handleForm = (theme) => {
