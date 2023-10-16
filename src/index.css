@@ -103,6 +103,7 @@ body{
 .container{
   width: 35rem;
   margin: 0 auto;
+  position: relative;
 }
 
 /* toggling themes */

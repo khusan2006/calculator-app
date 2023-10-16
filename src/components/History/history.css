@@ -1,0 +1,43 @@
+.history{
+    width: 80%;
+    height: 80%;
+    top: 12rem;
+    left: -83%;
+    position: absolute;
+    color: #fff;
+    background-color: var(--color-bg-input);
+    border-radius: 1rem;
+    padding: 1.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.history__operations{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.history__operation{
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 1.4rem;
+    color: var(--color-text-input);
+    border-bottom: 1.5px solid var(--color-text-input);
+}
+
+.history__btn{
+    padding: 1rem 1.5rem;
+    font-size: 1.6rem;
+    align-self: self-start;
+    border-radius: 0.5rem;
+    text-transform: uppercase;
+    border: none;
+    background-color: var(--color-bg-key-equal);
+    color: var(--color-text-key-equal);
+    font-weight: bold;
+    cursor: pointer;
+}

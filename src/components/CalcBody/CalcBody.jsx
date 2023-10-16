@@ -1,11 +1,11 @@
 import React from 'react'
 import './calcbody.css'
 
-const CalcBody = ({firstNumber,handleInputChange, handleOperations, reset, handleDelete}) => {
+const CalcBody = ({firstNumber,handleInputChange, handleOperations, reset, handleDelete, handleHistory}) => {
   
   return (
     <div className='calc-body'>
-        <span className='body__history'>History</span>
+        <span className='body__history' onClick={handleHistory}>History</span>
         <span className='body__voice'>voice</span>
         <span onClick={() => handleInputChange(7)}>7</span>
         <span onClick={() => handleInputChange(8)}>8</span>
