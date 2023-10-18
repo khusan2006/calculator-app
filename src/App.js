@@ -10,8 +10,12 @@ function App() {
   const [currentTheme, setCurrentTheme] = useState('dark');
   const [inputNumber, setInputNumber] = useState('');
   const [firstNumber, setFirstNumber] = useState('');
+  const [secondNumber, setSecondNumber] = useState('')
+  const [result, setResult] = useState('')
   const [operationType, setOperationType] = useState('')
   const [isHistoryOpen, setIsHistoryOpen] = useState(false)
+
+  console.log('render')
   // handling changes
   const handleInputChange = (value) => {
     setInputNumber((prev)=> prev.length <= MAX_VALUE ? `${prev}${value}` : prev)
@@ -28,65 +32,65 @@ function App() {
     navigator.clipboard.writeText(inputNumber)
   }
   //handling operations
- const handleOperations = (type='') => {
-      if(!firstNumber) {
-        setFirstNumber(inputNumber)
-        setInputNumber('')
-        setOperationType(type)
-      }else{
-        if(operationType === '+') {
-          setInputNumber((Number(firstNumber) + Number(inputNumber)).toString())
-          setFirstNumber('')
-          setOperationType('')
-        }
-        if(operationType === '-') {
-          setInputNumber((Number(firstNumber) - Number(inputNumber)).toString())
-          setFirstNumber('')
-          setOperationType('')
-        }
-        if(operationType === '*') {
-          setInputNumber((Number(firstNumber) * Number(inputNumber)).toString())
-          setFirstNumber('')
-          setOperationType('')
-        }
-        if(operationType === '/') {
-          setInputNumber((Number(firstNumber) / Number(inputNumber)).toString())
-          setFirstNumber('')
-          setOperationType('')
-        } 
+  const handleOperations = (type = '') => {
+    if (!firstNumber) {
+      setFirstNumber(inputNumber)
+      setInputNumber('')
+      setOperationType(type)
+    } else {
+      const num1 = Number(firstNumber)
+      const num2 = Number(inputNumber)
+      let resultValue
+  
+      switch (operationType) {
+        case '+':
+          resultValue = num1 + num2
+          break
+        case '-':
+          resultValue = num1 - num2
+          break
+        case '*':
+          resultValue = num1 * num2
+          break
+        case '/':
+          resultValue = num1 / num2
+          break
+        default:
+          break
       }
-    
-
+  
+      setInputNumber(resultValue.toString())
+      setResult(resultValue.toString())
+    }
   }
 
   const reset = () => {
+    setInputNumber('');
+    setFirstNumber('');
+    setSecondNumber('');
+    setOperationType('');
+  }
+
+  const handleClearHistory = () => {
     setInputNumber('')
-    setFirstNumber('')
+    localStorage.setItem('history', JSON.stringify([]))
   }
 
-  const handlekeyboards = (e) => {
-    const {key} = e
-    if(key === 'Backspace') {
-      handleDelete() 
+  const handlekeyboards = (event) => {
+    const { key } = event;
+  
+    if (key === 'Backspace') {
+      handleDelete();
+    } else if (/[\d.]/.test(key)) {
+      handleInputChange(key);
+    } else if ('+-*/'.includes(key)) {
+      handleOperations(key);
+    } else if (['=', 'Enter'].includes(key)) {
+      if (firstNumber) {
+        handleOperations();
+      }
     }
-
-    const keyNumber = +key;
-
-    if(keyNumber >= 0 && keyNumber <= 9) {
-      handleInputChange(keyNumber)
-    }
-
-    if(key === '.') {
-      handleInputChange(key)
-    }
-    
-    if(['+','-','*','/'].includes(key)) {
-      handleOperations(key)
-    }
-    if(key === '=' || key === 'Enter') {
-      firstNumber && handleOperations()
-    }
-  }
+  };
 
   // effect for handling theme 
   useEffect(() => {
@@ -108,7 +112,27 @@ function App() {
     return function() {
       document.removeEventListener('keydown', handlekeyboards)
     }
-  },[inputNumber, firstNumber])
+  },[inputNumber, firstNumber, secondNumber])
+
+  useEffect(() => {
+    const prevHistoryItems = JSON.parse(localStorage.getItem('history')) || [];
+  
+    if (firstNumber || secondNumber || operationType) {
+      const newHistoryItem = {
+        operationType,
+        firstNumber,
+        secondNumber,
+        result
+      };
+  
+      const historyItems = [newHistoryItem, ...prevHistoryItems];
+  
+      localStorage.setItem('history', JSON.stringify(historyItems));
+      setSecondNumber('');
+      setFirstNumber('');
+      setOperationType('');
+    }
+  }, [result]);
 
   return (
     <div className="app">
@@ -116,7 +140,7 @@ function App() {
             <CalcHeader setCurrentTheme={setCurrentTheme} />
             <CalcScreen inputNumber={inputNumber} setInputNumber={setInputNumber} MAX_VALUE={MAX_VALUE} handleCopy={handleCopy} />
             <CalcBody firstNumber={firstNumber} handleHistory={handleHistory} handleOperations={handleOperations} handleInputChange={handleInputChange} reset={reset} handleDelete={handleDelete} />
-            {isHistoryOpen && <History />}
+            {isHistoryOpen && <History handleClearHistory={handleClearHistory} />}
         </div>
     </div>
   );
