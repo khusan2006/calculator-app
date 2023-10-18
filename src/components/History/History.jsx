@@ -1,23 +1,27 @@
 import React from 'react';
 import './history.css'
 
-const History = () => {
+const History = ({handleClearHistory}) => {
+
+  const historyItems = JSON.parse(localStorage.getItem('history')) 
   return (
     <div className='history'>
         <div className="history__operations">
-            <div className="history__operation">
-                <span>
-                    837363 + 7
-                </span>
-                <span>
-                    =
-                </span>
-                <span>
-                    894688
-                </span>
-            </div>
+           {historyItems?.map((item, id) => {
+            return <div className="history__operation" key={id}>
+            <span>
+                {item.firstNumber} {item.operationType} {item.secondNumber}
+            </span>
+            <span>
+                =
+            </span>
+            <span>
+                {item.result}
+            </span>
         </div>
-        <button className='history__btn'>Clear History</button>
+           })}
+        </div>
+        <button className='history__btn' onClick={handleClearHistory}>Clear History</button>
     </div>
   )
 }
