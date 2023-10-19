@@ -15,7 +15,6 @@ function App() {
   const [operationType, setOperationType] = useState('')
   const [isHistoryOpen, setIsHistoryOpen] = useState(false)
 
-  console.log('render')
   // handling changes
   const handleInputChange = (value) => {
     setInputNumber((prev)=> prev.length <= MAX_VALUE ? `${prev}${value}` : prev)
@@ -115,6 +114,7 @@ function App() {
   },[inputNumber, firstNumber, secondNumber])
 
   useEffect(() => {
+    console.log(secondNumber)
     const prevHistoryItems = JSON.parse(localStorage.getItem('history')) || [];
   
     if (firstNumber || secondNumber || operationType) {

@@ -88,6 +88,21 @@
   --color-shadow-key-equal: #6CF9F1;
 }
 
+*::-webkit-scrollbar {
+  width: 0.5em;
+}
+ 
+*::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+ 
+*::-webkit-scrollbar-thumb {
+  border-radius: 20px;
+  background-color: var(--color-text-input);
+  outline: 1px solid slategrey;
+}
+
+
 html{
   font-size: 62.5%;
 }
