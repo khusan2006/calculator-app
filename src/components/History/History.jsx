@@ -1,13 +1,13 @@
 import React from 'react';
 import './history.css'
 
-const History = ({handleClearHistory}) => {
+const History = ({handleClearHistory, historyOperations}) => {
 
-  const historyItems = JSON.parse(localStorage.getItem('history')) 
+//   const historyItems = JSON.parse(localStorage.getItem('history')) 
   return (
     <div className='history'>
         <div className="history__operations">
-           {historyItems?.map((item, id) => {
+           {historyOperations?.map((item, id) => {
             return <div className="history__operation" key={id}>
             <span>
                 {item.firstNumber} {item.operationType} {item.secondNumber}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import CalcBody from "./components/CalcBody/CalcBody";
 import CalcHeader from "./components/CalcHeader/CalcHeader";
 import CalcScreen from "./components/CalcScreen/CalcScreen";
@@ -14,6 +14,9 @@ function App() {
   const [result, setResult] = useState('')
   const [operationType, setOperationType] = useState('')
   const [isHistoryOpen, setIsHistoryOpen] = useState(false)
+  const [historyOperations, setHistoryOperations] = useState(() => {
+    return JSON.parse(localStorage.getItem('history'))
+  })
 
   // handling changes
   const handleInputChange = (value) => {
@@ -31,16 +34,17 @@ function App() {
     navigator.clipboard.writeText(inputNumber)
   }
   //handling operations
-  const handleOperations = (type = '') => {
+  const handleOperations = useCallback((type = '') => {
     if (!firstNumber) {
       setFirstNumber(inputNumber)
       setInputNumber('')
       setOperationType(type)
     } else {
+      setSecondNumber(inputNumber)
       const num1 = Number(firstNumber)
       const num2 = Number(inputNumber)
       let resultValue
-  
+      
       switch (operationType) {
         case '+':
           resultValue = num1 + num2
@@ -61,21 +65,21 @@ function App() {
       setInputNumber(resultValue.toString())
       setResult(resultValue.toString())
     }
-  }
+  },[firstNumber,inputNumber, operationType])
 
-  const reset = () => {
-    setInputNumber('');
+  const reset = (resetForHistory) => {
     setFirstNumber('');
+    setInputNumber('');
     setSecondNumber('');
     setOperationType('');
   }
 
   const handleClearHistory = () => {
-    setInputNumber('')
+    setHistoryOperations([])
     localStorage.setItem('history', JSON.stringify([]))
   }
 
-  const handlekeyboards = (event) => {
+  const handlekeyboards = useCallback((event) => {
     const { key } = event;
   
     if (key === 'Backspace') {
@@ -89,7 +93,7 @@ function App() {
         handleOperations();
       }
     }
-  };
+  },[firstNumber, handleOperations]);
 
   // effect for handling theme 
   useEffect(() => {
@@ -105,16 +109,14 @@ function App() {
   
   //effect for handling keyboard events 
   useEffect(() => {
-
     document.addEventListener('keydown', handlekeyboards)
 
     return function() {
       document.removeEventListener('keydown', handlekeyboards)
     }
-  },[inputNumber, firstNumber, secondNumber])
+  },[inputNumber, firstNumber, secondNumber, handlekeyboards])
 
   useEffect(() => {
-    console.log(secondNumber)
     const prevHistoryItems = JSON.parse(localStorage.getItem('history')) || [];
   
     if (firstNumber || secondNumber || operationType) {
@@ -124,9 +126,9 @@ function App() {
         secondNumber,
         result
       };
-  
+
       const historyItems = [newHistoryItem, ...prevHistoryItems];
-  
+      setHistoryOperations(historyItems)
       localStorage.setItem('history', JSON.stringify(historyItems));
       setSecondNumber('');
       setFirstNumber('');
@@ -140,7 +142,7 @@ function App() {
             <CalcHeader setCurrentTheme={setCurrentTheme} />
             <CalcScreen inputNumber={inputNumber} setInputNumber={setInputNumber} MAX_VALUE={MAX_VALUE} handleCopy={handleCopy} />
             <CalcBody firstNumber={firstNumber} handleHistory={handleHistory} handleOperations={handleOperations} handleInputChange={handleInputChange} reset={reset} handleDelete={handleDelete} />
-            {isHistoryOpen && <History handleClearHistory={handleClearHistory} />}
+            {isHistoryOpen && <History handleClearHistory={handleClearHistory} historyOperations={historyOperations} />}
         </div>
     </div>
   );
