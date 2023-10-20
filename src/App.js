@@ -4,6 +4,7 @@ import CalcHeader from "./components/CalcHeader/CalcHeader";
 import CalcScreen from "./components/CalcScreen/CalcScreen";
 import History from "./components/History/History";
 import { useKeyBoard } from "./hooks/useKeyboard";
+import { useLocalStorage } from "./hooks/useLocalStorage";
 
 const MAX_VALUE = 10
 
@@ -11,12 +12,10 @@ function App() {
   const [currentTheme, setCurrentTheme] = useState('dark');
   const [inputNumber, setInputNumber] = useState('');
   const [firstNumber, setFirstNumber] = useState('');
-  const [secondNumber, setSecondNumber] = useState('')
-  const [result, setResult] = useState('')
   const [operationType, setOperationType] = useState('')
   const [isHistoryOpen, setIsHistoryOpen] = useState(false)
   const [historyOperations, setHistoryOperations] = useState(() => {
-    return JSON.parse(localStorage.getItem('history'))
+    return JSON.parse(localStorage.getItem('history') || '[]')
   })
 
   // handling changes
@@ -41,7 +40,6 @@ function App() {
       setInputNumber('')
       setOperationType(type)
     } else {
-      setSecondNumber(inputNumber)
       const num1 = Number(firstNumber)
       const num2 = Number(inputNumber)
       let resultValue
@@ -62,16 +60,18 @@ function App() {
         default:
           break
       }
-  
+      setHistoryOperations(prev => [{
+        firstNumber, secondNumber: inputNumber, result: resultValue, operationType
+      },...prev])
+      setFirstNumber('')
+      setOperationType('')
       setInputNumber(resultValue.toString())
-      setResult(resultValue.toString())
     }
-  },[firstNumber,inputNumber, operationType])
+  },[firstNumber,inputNumber, operationType, ])
 
-  const reset = (resetForHistory) => {
+  const reset = () => {
     setFirstNumber('');
     setInputNumber('');
-    setSecondNumber('');
     setOperationType('');
   }
 
@@ -91,27 +91,9 @@ function App() {
     document.documentElement.setAttribute('data-theme', currentTheme);
   },[currentTheme])
 
-  
 
-  useEffect(() => {
-    const prevHistoryItems = JSON.parse(localStorage.getItem('history')) || [];
-  
-    if (firstNumber || secondNumber || operationType) {
-      const newHistoryItem = {
-        operationType,
-        firstNumber,
-        secondNumber,
-        result
-      };
+  useLocalStorage('history', historyOperations)
 
-      const historyItems = [newHistoryItem, ...prevHistoryItems];
-      setHistoryOperations(historyItems)
-      localStorage.setItem('history', JSON.stringify(historyItems));
-      setSecondNumber('');
-      setFirstNumber('');
-      setOperationType('');
-    }
-  }, [result]);
   //handling keyboard events with custom hook
   useKeyBoard(["Backspace"], handleDelete, inputNumber)
   useKeyBoard(["="], function() {if(firstNumber) {handleOperations()}}, inputNumber)
