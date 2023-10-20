@@ -1,7 +1,7 @@
 import React from 'react'
 import './calcbody.css'
 
-const CalcBody = ({firstNumber,handleInputChange, handleOperations, reset, handleDelete, handleHistory}) => {
+const CalcBody = ({firstNumber,handleInputChange, handleOperations, handleReset, handleDelete, handleHistory}) => {
   
   return (
     <div className='calc-body'>
@@ -23,7 +23,7 @@ const CalcBody = ({firstNumber,handleInputChange, handleOperations, reset, handl
         <span onClick={() => handleInputChange(0)}>0</span>
         <span onClick={() => handleOperations('/')}>/</span>
         <span onClick={() => handleOperations('*')}>x</span>
-        <span className='body__reset' onClick={reset}>Reset</span>
+        <span className='body__reset' onClick={() => handleReset(true)}>Reset</span>
         <span className='body__equal' onClick={() => firstNumber && handleOperations('')}>=</span>
     </div>
   )

@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 
-export const useKeyBoard = (key, callbackFunction, dependency) => {
+export const useKeyboard = (key, callbackFunction, dependency) => {
     useEffect(() => {
         const handlekeyboards = (event) => {
            if(key.includes(event.key)) {

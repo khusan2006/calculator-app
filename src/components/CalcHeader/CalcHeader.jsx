@@ -3,7 +3,6 @@ import './calcheader.css'
 
 const CalcHeader = ({setCurrentTheme}) => {
   const handleForm = (theme) => {
-    localStorage.setItem('theme', theme)
     setCurrentTheme(theme)
   }
   return (

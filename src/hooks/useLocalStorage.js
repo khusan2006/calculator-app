@@ -1,8 +1,9 @@
 import { useEffect } from "react"
 
-export const useLocalStorage = (name, value) => {
+export const useLocalStorage = (name, value, callback=()=>{}) => {
     useEffect(() => {
         const item = JSON.stringify(value)
         localStorage.setItem(name, item)
-    },[name, value])
+        callback()
+    },[name, value, callback])
 }
