@@ -3,6 +3,7 @@ import CalcBody from "./components/CalcBody/CalcBody";
 import CalcHeader from "./components/CalcHeader/CalcHeader";
 import CalcScreen from "./components/CalcScreen/CalcScreen";
 import History from "./components/History/History";
+import { useKeyBoard } from "./hooks/useKeyboard";
 
 const MAX_VALUE = 10
 
@@ -79,22 +80,6 @@ function App() {
     localStorage.setItem('history', JSON.stringify([]))
   }
 
-  const handlekeyboards = useCallback((event) => {
-    const { key } = event;
-  
-    if (key === 'Backspace') {
-      handleDelete();
-    } else if (/[\d.]/.test(key)) {
-      handleInputChange(key);
-    } else if ('+-*/'.includes(key)) {
-      handleOperations(key);
-    } else if (['=', 'Enter'].includes(key)) {
-      if (firstNumber) {
-        handleOperations();
-      }
-    }
-  },[firstNumber, handleOperations]);
-
   // effect for handling theme 
   useEffect(() => {
     let localSTheme = localStorage.getItem('theme');
@@ -107,14 +92,6 @@ function App() {
   },[currentTheme])
 
   
-  //effect for handling keyboard events 
-  useEffect(() => {
-    document.addEventListener('keydown', handlekeyboards)
-
-    return function() {
-      document.removeEventListener('keydown', handlekeyboards)
-    }
-  },[inputNumber, firstNumber, secondNumber, handlekeyboards])
 
   useEffect(() => {
     const prevHistoryItems = JSON.parse(localStorage.getItem('history')) || [];
@@ -135,6 +112,11 @@ function App() {
       setOperationType('');
     }
   }, [result]);
+  //handling keyboard events with custom hook
+  useKeyBoard(["Backspace"], handleDelete, inputNumber)
+  useKeyBoard(["="], function() {if(firstNumber) {handleOperations()}}, inputNumber)
+  useKeyBoard(['+','-', '/','*'], handleOperations, inputNumber)
+  useKeyBoard(['1','2','3','4','5','6','7','8','9','0'], handleInputChange, inputNumber)
 
   return (
     <div className="app">
