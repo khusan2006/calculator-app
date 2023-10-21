@@ -84,3 +84,15 @@
   .calc-body .body__del:hover{
     background-color: var(--color-bg-key-command-hover);
   }
+
+
+  @media screen and (max-width: 500px) {
+    .calc-body{
+      gap: 2.3rem;
+    }
+
+    .calc-body span{
+      font-size: 3rem;
+      padding: 1rem;
+    }
+  }
