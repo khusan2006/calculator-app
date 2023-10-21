@@ -2,12 +2,8 @@ import React from 'react';
 import './calcscreen.css'
 
 const CalcScreen = ({inputNumber, handleCopy}) => {
-  function formatNumber() {
+  const formatNumber = () => {
     return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
-  
-  const handleChange = () => {
-    return 
   }
   return (
     <div className='screen-container'>
@@ -17,7 +13,7 @@ const CalcScreen = ({inputNumber, handleCopy}) => {
             <path d="M4.354 2.354a.5.5 0 0 1 .293-.293.5.5 0 0 1 .293.293L4.646 3.5h6.708a.5.5 0 0 1 .5.5V13a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5V4a.5.5 0 0 1 .354-.646zM10 1H4a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1h-2.5V1z"/>
           </svg>   
         </div>      
-        <input type="text" inputMode='number' placeholder='0' className='screen' value={formatNumber()} onChange={handleChange} />
+        <input type="text" readOnly inputMode='number' placeholder='0' className='screen' value={formatNumber()}  />
     </div>
   )
 }

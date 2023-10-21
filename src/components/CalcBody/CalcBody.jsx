@@ -18,14 +18,14 @@ const CalcBody = ({setInputNumber, handleHistory, setHistoryOperations, inputNum
   }
 
     //resetting
-    const handleReset = (fullReset) => {
+  const handleReset = (fullReset) => {
       if(fullReset) setInputNumber('');
       setFirstNumber('');
       setOperationType('');
-    }
+  }
     //handling operations
-    const handleOperations = (type = '') => {
-      if (!firstNumber) {
+  const handleOperations = (type = '') => {
+    if (!firstNumber) {
         setFirstNumber(inputNumber)
         setInputNumber('')
         setOperationType(type)
@@ -58,11 +58,11 @@ const CalcBody = ({setInputNumber, handleHistory, setHistoryOperations, inputNum
         },...prev])
         handleReset(false)
         setInputNumber(resultValue.toString())
-      }
     }
+  }
 
     useKeyboard(["Backspace"], handleDelete)
-    useKeyboard(["="], function() {if(firstNumber) {handleOperations()}})
+    useKeyboard(["="], () => {if(firstNumber) handleOperations()})
     useKeyboard(['+','-', '/','*'], handleOperations)
     useKeyboard(['1','2','3','4','5','6','7','8','9','0'], handleInputChange)
     

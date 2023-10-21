@@ -6,17 +6,15 @@ import History from "./components/History/History";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 
 const MAX_VALUE = 10
+const PreferedMode = window.matchMedia('(prefers-color-scheme: dark)').matches
 
 function App() {
   const [currentTheme, setCurrentTheme] = useState(() => {
-    return localStorage.getItem('theme') ||
-     window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+    return localStorage.getItem('theme') || PreferedMode ? 'dark' : 'light'
   });
   const [inputNumber, setInputNumber] = useState('');
   const [isHistoryOpen, setIsHistoryOpen] = useState(false)
-  const [historyOperations, setHistoryOperations] = useState(() => {
-    return JSON.parse(localStorage.getItem('history') || '[]')
-  })
+  const [historyOperations, setHistoryOperations] = useState(() => JSON.parse(localStorage.getItem('history') || '[]'))
 
   const handleHistory = () => {
     setIsHistoryOpen(prev => !prev)

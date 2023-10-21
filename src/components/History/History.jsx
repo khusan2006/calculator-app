@@ -2,8 +2,6 @@ import React from 'react';
 import './history.css'
 
 const History = ({handleClearHistory, historyOperations}) => {
-
-//   const historyItems = JSON.parse(localStorage.getItem('history')) 
   return (
     <div className='history'>
         <div className="history__operations">
