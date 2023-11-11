@@ -10,6 +10,7 @@ const CalcBody = ({setInputNumber, handleHistory, setHistoryOperations, inputNum
   
 
   const handleInputChange = (value) => {
+    if(value === '.' && inputNumber.includes('.')) return
     setInputNumber((prev)=> prev.length <= MAX_VALUE ? `${prev}${value}` : prev)
   }
 
@@ -24,12 +25,19 @@ const CalcBody = ({setInputNumber, handleHistory, setHistoryOperations, inputNum
       setOperationType('');
   }
     //handling operations
-  const handleOperations = (type = '') => {
+  const handleOperations = (type = '=') => {
     if (!firstNumber) {
         setFirstNumber(inputNumber)
         setInputNumber('')
         setOperationType(type)
       } else {
+        // returns if second number is not entered after one of the operations is clicked
+        if(!inputNumber) return
+
+        //updates operationType if user clicks another operation type instead of equal button
+        //it will allow user to do another operation after current operation
+        type !== '=' &&  setOperationType(type)
+
         const num1 = Number(firstNumber)
         const num2 = Number(inputNumber)
         let resultValue
@@ -50,21 +58,31 @@ const CalcBody = ({setInputNumber, handleHistory, setHistoryOperations, inputNum
           default:
             break
         }
+        // storing result to history object so that show in history section
         setHistoryOperations(prev => [{
           firstNumber, 
           secondNumber: inputNumber,
           result: resultValue,
           operationType
         },...prev])
-        handleReset(false)
-        setInputNumber(resultValue.toString())
+
+        //resetting 
+        if(type === "=") {
+          handleReset(false)
+          setInputNumber(resultValue.toString()) 
+        }
+        //handles cases where users clicks another operation instead of equal button
+        if(type === '+' || '-' || '*' || '/'){
+            setInputNumber('')
+            setFirstNumber(resultValue)
+        }
     }
   }
 
     useKeyboard(["Backspace"], handleDelete)
     useKeyboard(["="], () => {if(firstNumber) handleOperations()})
     useKeyboard(['+','-', '/','*'], handleOperations)
-    useKeyboard(['1','2','3','4','5','6','7','8','9','0'], handleInputChange)
+    useKeyboard(['1','2','3','4','5','6','7','8','9','0','.'], handleInputChange)
     
   
   return (
@@ -88,7 +106,7 @@ const CalcBody = ({setInputNumber, handleHistory, setHistoryOperations, inputNum
         <span onClick={() => handleOperations('/')}>/</span>
         <span onClick={() => handleOperations('*')}>x</span>
         <span className='body__reset' onClick={() => handleReset(true)}>Reset</span>
-        <span className='body__equal' onClick={() => firstNumber && handleOperations('')}>=</span>
+        <span className='body__equal' onClick={() => firstNumber && handleOperations('=')}>=</span>
     </div>
   )
 }
