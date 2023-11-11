@@ -18,6 +18,9 @@ const CalcBody = ({setInputNumber, handleHistory, setHistoryOperations, inputNum
     setInputNumber((prev) => prev.toString().slice(0,-1))
   }
 
+  const storeResult = (result) => {
+    setHistoryOperations(prev => [result,...prev])
+  }
     //resetting
   const handleReset = (fullReset) => {
       if(fullReset) setInputNumber('');
@@ -59,12 +62,10 @@ const CalcBody = ({setInputNumber, handleHistory, setHistoryOperations, inputNum
             break
         }
         // storing result to history object so that show in history section
-        setHistoryOperations(prev => [{
-          firstNumber, 
+        storeResult({firstNumber, 
           secondNumber: inputNumber,
           result: resultValue,
-          operationType
-        },...prev])
+          operationType})
 
         //resetting 
         if(type === "=") {
