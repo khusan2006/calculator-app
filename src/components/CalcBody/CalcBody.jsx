@@ -44,7 +44,6 @@ const CalcBody = ({setInputNumber, handleHistory, setHistoryOperations, inputNum
         const num1 = Number(firstNumber)
         const num2 = Number(inputNumber)
         let resultValue
-        
         switch (operationType) {
           case '+':
             resultValue = num1 + num2
@@ -69,14 +68,13 @@ const CalcBody = ({setInputNumber, handleHistory, setHistoryOperations, inputNum
 
         //resetting 
         if(type === "=") {
-          handleReset(false)
           setInputNumber(resultValue.toString()) 
+          handleReset(false)
+        }else{
+          setInputNumber('')
+          setFirstNumber(resultValue)
         }
-        //handles cases where users clicks another operation instead of equal button
-        if(type === '+' || '-' || '*' || '/'){
-            setInputNumber('')
-            setFirstNumber(resultValue)
-        }
+
     }
   }
 
