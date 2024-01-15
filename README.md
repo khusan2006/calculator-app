@@ -13,22 +13,17 @@ The website is connected to Coinranking api, which is a popular source of data f
 
 » React JS <br>
 » CSS <br>
-» React-router-dom <br>
-» tabler-icons <br>
-» React Spinners <br>
-» Coinranking API <br>
 
 
 <br>
 
 <h2>What I have learnt</h2>
 <br>
-»  how to make text color linear gradient<br>
-» how to implement pagination<br>
+»  how to implement different modes in website<br>
 
 <h2>What was challenging</h2>
 <br>
-»  implementing pagination<br>
+» impelenting edge cases <br>
 
 
 
