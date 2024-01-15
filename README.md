@@ -18,6 +18,7 @@
 <h2>What I have learnt</h2>
 <br>
 »  how to implement different modes in website<br>
+»  how to implement clipboard functionality<br>
 
 <h2>What was challenging</h2>
 <br>
